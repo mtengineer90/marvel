@@ -1,1 +1,1 @@
-export 'error_component.dart';
+export '../../../widgets/error_component.dart';

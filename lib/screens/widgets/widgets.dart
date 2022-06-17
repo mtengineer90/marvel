@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 
-class GlobalComponents {
+class GlobalWidgets {
   static Future<void> msgAlert({
     required BuildContext context,
     String? title,

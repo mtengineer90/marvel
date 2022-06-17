@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/characters.dart';
 import '../../widgets/widgets.dart';
-import 'components/error_component.dart';
+import '../../widgets/error_component.dart';
 import 'controller/home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: GlobalComponents.textTitlecenterNoOver(text: 'Home Screen'),
+        title: GlobalWidgets.textTitlecenterNoOver(text: 'Anasayfa'),
       ),
       body: FutureBuilder(
         future: _controller.getCharacterFromApi(context),
@@ -46,28 +46,32 @@ class _HomeScreenState extends State<HomeScreen> {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: ListView.builder(
-          itemCount: _controller.character!.data.results.length,
-          itemBuilder: (context, index) {
-            Result result = _controller.character!.data.results[index];
+        itemCount: _controller.character!.data.results.length,
+        itemBuilder: (context, index) {
+          Result result = _controller.character!.data.results[index];
 
-            return ListTile(
-              leading: Image.network(
-                '${result.thumbnail.path}/portrait_xlarge.${result.thumbnail.extension.name.toString().toLowerCase()}',
-                errorBuilder: (context, error, stackTrace) {
-                  return const Text('😢');
-                },
-                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return const CircularProgressIndicator.adaptive();
-                  }
-                },
-              ),
-              title: GlobalComponents.textSimpleSize(text: result.name),
-              contentPadding: const EdgeInsets.all(8),
-            );
-          }),
+          return ListTile(
+            leading: Image.network(
+              '${result.thumbnail.path}/portrait_xlarge.${result.thumbnail.extension.name.toString().toLowerCase()}',
+              errorBuilder: (context, error, stackTrace) {
+                return const Text('😢');
+              },
+              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                } else {
+                  return const CircularProgressIndicator.adaptive();
+                }
+              },
+            ),
+            title: GlobalWidgets.textSimpleSize(text: result.name),
+            contentPadding: const EdgeInsets.all(8),
+            onTap: () {
+              Navigator.pushNamed(context, '/profile', arguments: result.id.toString());
+            },
+          );
+        },
+      ),
     );
   }
 }

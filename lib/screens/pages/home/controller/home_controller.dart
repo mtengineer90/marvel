@@ -5,6 +5,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../services/constants.dart';
 import '../../../../services/web/request.dart';
+import '../../../widgets/unknown_error.dart';
 import '../../../widgets/widgets.dart';
 
 part 'home_controller.g.dart';
@@ -24,27 +25,19 @@ abstract class HomeControllerBase with Store {
         return true;
       } else {
         if (response.body.contains('message')) {
-          GlobalComponents.msgAlert(
+          GlobalWidgets.msgAlert(
             context: context,
             title: apiErrorFromJson(response.body).message,
           );
           return false;
         } else {
-          _unknownError(context);
+          unknownError(context);
           return false;
         }
       }
     } catch (e) {
-      _unknownError(context);
+      unknownError(context);
                 return false;
     }
-  }
+  }}
 
-  void _unknownError(BuildContext context) {
-    GlobalComponents.msgAlert(
-      context: context,
-      title: 'Hata!',
-      content: "Tekrar deneyin!",
-    );
-  }
-}

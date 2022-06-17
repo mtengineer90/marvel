@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'screens/pages/home/home.dart';
+import 'screens/pages/profile/profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primaryColor: Colors.white),
       routes: {
         '/': ((context) => const HomeScreen()),
+              ProfileScreen.routeName: ((context) => const ProfileScreen()),
+
       },
     );
   }

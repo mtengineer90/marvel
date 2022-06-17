@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../widgets/widgets.dart';
+import 'widgets.dart';
 
 class ErrorComponent extends StatelessWidget {
   const ErrorComponent({
@@ -15,7 +15,7 @@ class ErrorComponent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(Icons.error_outline_outlined),
-          GlobalComponents.textSimpleSize(text: 'Algo deu errado, tente novamente mais tarde')
+          GlobalWidgets.textSimpleSize(text: 'Algo deu errado, tente novamente mais tarde')
         ],
       ),
     );
