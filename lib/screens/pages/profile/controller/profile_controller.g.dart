@@ -13,13 +13,13 @@ mixin _$ProfileController on _ProfileController, Store {
       Atom(name: '_ProfileController.character', context: context);
 
   @override
-  Profile? get character {
+  Character? get character {
     _$characterAtom.reportRead();
     return super.character;
   }
 
   @override
-  set character(Profile? value) {
+  set character(Character? value) {
     _$characterAtom.reportWrite(value, super.character, () {
       super.character = value;
     });

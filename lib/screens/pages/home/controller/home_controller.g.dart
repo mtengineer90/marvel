@@ -25,6 +25,22 @@ mixin _$HomeController on HomeControllerBase, Store {
     });
   }
 
+  late final _$loadingAtom =
+      Atom(name: 'HomeControllerBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   late final _$getCharacterFromApiAsyncAction =
       AsyncAction('HomeControllerBase.getCharacterFromApi', context: context);
 
@@ -34,10 +50,36 @@ mixin _$HomeController on HomeControllerBase, Store {
         .run(() => super.getCharacterFromApi(context));
   }
 
+  late final _$HomeControllerBaseActionController =
+      ActionController(name: 'HomeControllerBase', context: context);
+
+  @override
+  void addResults(List<Result> results) {
+    final _$actionInfo = _$HomeControllerBaseActionController.startAction(
+        name: 'HomeControllerBase.addResults');
+    try {
+      return super.addResults(results);
+    } finally {
+      _$HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeLoading(bool value) {
+    final _$actionInfo = _$HomeControllerBaseActionController.startAction(
+        name: 'HomeControllerBase.changeLoading');
+    try {
+      return super.changeLoading(value);
+    } finally {
+      _$HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-character: ${character}
+character: ${character},
+loading: ${loading}
     ''';
   }
 }

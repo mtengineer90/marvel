@@ -89,12 +89,9 @@ class GlobalWidgets {
   }
 
   static Widget textTitlecenterNoOver({required String text, double? fontSize, Color? textcolor}) {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: Center(
-            child: Text(text,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize, color: textcolor))));
+    return Text(text,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize, color: textcolor));
   }
 
   static Widget textSimpleSize({required String text, Color? textcolor, double? fontSize}) {

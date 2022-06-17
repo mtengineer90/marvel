@@ -15,14 +15,14 @@ class ProfileController = _ProfileController with _$ProfileController;
 
 abstract class _ProfileController with Store {
   @observable
-  Profile? character;
+  Character? character;
 
   @action
   Future<bool> getProfileFromApi(BuildContext context, {String? id}) async {
     try {
       var response = await ReqAPI.get(endPoint: "${EndPoint.characters}/$id");
       if (response.statusCode == 200) {
-        character = profileFromJson(response.body);
+        character = charactersFromJson(response.body);
         return true;
       } else {
         if (response.body.contains('message')) {

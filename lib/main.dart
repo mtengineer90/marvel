@@ -15,11 +15,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Marvel',
-      theme: ThemeData(primaryColor: Colors.white),
+      theme: ThemeData(
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.dark,
       routes: {
         '/': ((context) => const HomeScreen()),
-              ProfileScreen.routeName: ((context) => const ProfileScreen()),
-
+        ProfileScreen.routeName: ((context) => ProfileScreen()),
       },
     );
   }

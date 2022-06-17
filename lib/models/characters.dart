@@ -2,26 +2,24 @@ import 'dart:convert';
 
 Character charactersFromJson(String str) => Character.fromJson(json.decode(str));
 
-String charactersToJson(Character data) => json.encode(data.toJson());
-
 class Character {
   Character({
-    required this.code,
-    required this.status,
-    required this.copyright,
-    required this.attributionText,
-    required this.attributionHtml,
-    required this.etag,
-    required this.data,
+    this.code,
+    this.status,
+    this.copyright,
+    this.attributionText,
+    this.attributionHtml,
+    this.etag,
+    this.data,
   });
 
-  int code;
-  String status;
-  String copyright;
-  String attributionText;
-  String attributionHtml;
-  String etag;
-  Data data;
+  int? code;
+  String? status;
+  String? copyright;
+  String? attributionText;
+  String? attributionHtml;
+  String? etag;
+  Data? data = Data();
 
   factory Character.fromJson(Map<String, dynamic> json) => Character(
         code: json["code"],
@@ -32,32 +30,22 @@ class Character {
         etag: json["etag"],
         data: Data.fromJson(json["data"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "code": code,
-        "status": status,
-        "copyright": copyright,
-        "attributionText": attributionText,
-        "attributionHTML": attributionHtml,
-        "etag": etag,
-        "data": data.toJson(),
-      };
 }
 
 class Data {
   Data({
-    required this.offset,
-    required this.limit,
-    required this.total,
-    required this.count,
-    required this.results,
+    this.offset,
+    this.limit,
+    this.total,
+    this.count,
+    this.results = const <Result>[],
   });
 
-  int offset;
-  int limit;
-  int total;
-  int count;
-  List<Result> results;
+  int? offset;
+  int? limit;
+  int? total;
+  int? count;
+  List<Result>? results;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         offset: json["offset"],
@@ -66,14 +54,6 @@ class Data {
         count: json["count"],
         results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "offset": offset,
-        "limit": limit,
-        "total": total,
-        "count": count,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-      };
 }
 
 class Result {

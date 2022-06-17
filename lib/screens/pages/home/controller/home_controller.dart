@@ -9,19 +9,26 @@ import '../../../widgets/unknown_error.dart';
 import '../../../widgets/widgets.dart';
 
 part 'home_controller.g.dart';
-
 class HomeController = HomeControllerBase with _$HomeController;
 
 abstract class HomeControllerBase with Store {
   @observable
-  Character? character;
+  Character? character = Character(data: Data());
+  @observable
+  bool loading = false;
 
   @action
   Future<bool> getCharacterFromApi(BuildContext context) async {
     try {
+      changeLoading(true);
       var response = await ReqAPI.get(endPoint: EndPoint.characters);
       if (response.statusCode == 200) {
-        character = charactersFromJson(response.body);
+        if (character!.etag == null) {
+          character = charactersFromJson(response.body);
+        } else {
+          addResults(charactersFromJson(response.body).data!.results!);
+        }
+        changeLoading(false);
         return true;
       } else {
         if (response.body.contains('message')) {
@@ -29,15 +36,34 @@ abstract class HomeControllerBase with Store {
             context: context,
             title: apiErrorFromJson(response.body).message,
           );
+          changeLoading(false);
+
           return false;
         } else {
           unknownError(context);
+          changeLoading(false);
+
           return false;
         }
       }
     } catch (e) {
       unknownError(context);
-                return false;
-    }
-  }}
+      changeLoading(false);
 
+      return false;
+    }
+  }
+
+  @action
+  void addResults(List<Result> results) {
+    for (var element in results) {
+      character!.data!.results!.add(element);
+    }
+    this.character = character;
+  }
+
+  @action
+  changeLoading(bool value) {
+    loading = value;
+  }
+}

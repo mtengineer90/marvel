@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../models/characters.dart';
+import '../../widgets/image_component.dart';
 import '../../widgets/widgets.dart';
 import '../../widgets/error_component.dart';
 import 'controller/home_controller.dart';
@@ -13,12 +15,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeController _controller = HomeController();
+  final ScrollController _scrollController = ScrollController();
+  final HomeController _controller = HomeController();
+
   @override
   Widget build(BuildContext context) {
+    _scrollController.addListener(_scrollListener);
+
     return Scaffold(
       appBar: AppBar(
-        title: GlobalWidgets.textTitlecenterNoOver(text: 'Anasayfa'),
+        title: GlobalWidgets.textTitlecenterNoOver(text: 'Home Screen'),
       ),
       body: FutureBuilder(
         future: _controller.getCharacterFromApi(context),
@@ -30,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               if (snapshot.data == false) {
                 const ErrorComponent();
               } else {
-                return _lsitCharacter(context);
+                return _listChar(context);
               }
             }
             return const ErrorComponent();
@@ -42,36 +48,50 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _lsitCharacter(BuildContext context) {
+  _scrollListener() async {
+    if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      await _controller.getCharacterFromApi(context);
+      setState(() {
+        print('tttt');
+      });
+    }
+    if (_scrollController.offset <= _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange) {}
+  }
+
+  Widget _listChar(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
-      child: ListView.builder(
-        itemCount: _controller.character!.data.results.length,
-        itemBuilder: (context, index) {
-          Result result = _controller.character!.data.results[index];
-
-          return ListTile(
-            leading: Image.network(
-              '${result.thumbnail.path}/portrait_xlarge.${result.thumbnail.extension.name.toString().toLowerCase()}',
-              errorBuilder: (context, error, stackTrace) {
-                return const Text('😢');
-              },
-              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                } else {
-                  return const CircularProgressIndicator.adaptive();
-                }
-              },
-            ),
-            title: GlobalWidgets.textSimpleSize(text: result.name),
-            contentPadding: const EdgeInsets.all(8),
-            onTap: () {
-              Navigator.pushNamed(context, '/profile', arguments: result.id.toString());
-            },
-          );
-        },
-      ),
+      child: Observer(builder: (_) {
+        int lenght = _controller.character!.data!.results!.length;
+        return ListView.builder(
+          itemCount: _controller.loading ? lenght + 1 : lenght,
+          itemBuilder: (context, index) {
+            Result result = _controller.character!.data!.results![index];
+            if (index == lenght - 1) {
+              return const CircularProgressIndicator();
+            }
+            return Column(
+              children: [
+                ListTile(
+                  leading: ImageFromAPI(
+                    url: result.thumbnail.path,
+                    imageVariant: ImageVariant.portraitXlarge,
+                    extention: result.thumbnail.extension.name.toString().toLowerCase(),
+                  ),
+                  title: GlobalWidgets.textSimpleSize(text: result.name),
+                  contentPadding: const EdgeInsets.all(8),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/profile', arguments: result.id.toString());
+                  },
+                ),
+                const Divider(thickness: 2, height: 1)
+              ],
+            );
+          },
+        );
+      }),
     );
   }
 }
