@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+
 class GlobalComponents {
   static Future<void> msgAlert({
     required BuildContext context,
@@ -10,7 +11,7 @@ class GlobalComponents {
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.center,
     EdgeInsetsGeometry? padding,
     bool showCloseIcon = true,
-    bool barrierDismissible = false,
+    bool barrierDismissible = true,
     Widget? child,
   }) async {
     await showGeneralDialog(
@@ -18,67 +19,69 @@ class GlobalComponents {
       barrierColor: Colors.black.withOpacity(0.5),
       context: context,
       transitionBuilder: (context, a1, a2, widget2) => Transform.scale(
-          scale: a1.value,
-          child: Opacity(
-              opacity: a1.value,
-              child: AlertDialog(
-                title: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                    ),
-                    child: Stack(
-                      children: <Widget>[
-                        child ??
-                            Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                                padding: padding,
-                                child: textTitlecenterNoOver(text: "$title", fontSize: 18, textcolor: Colors.black),
-                              ),
-                            ),
-                        Visibility(
-                          visible: showCloseIcon,
-                          child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Container(
-                                padding: const EdgeInsets.all(10),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Icon(
-                                      MdiIcons.close,
-                                      color: Colors.black,
-                                    )),
-                              )),
-                        ),
-                      ],
-                    )),
-                contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                titlePadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                //left, top, right, bottom
-                content: Visibility(
-                  visible: child == null,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: crossAxisAlignment,
-                    mainAxisAlignment: mainAxisAlignment,
-                    children: <Widget>[
-                      const Divider(),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
-                        child: textSimpleSize(text: "$content", fontSize: 16, textcolor: Colors.black87),
-                      ),
-                    ],
-                  ),
+        scale: a1.value,
+        child: Opacity(
+          opacity: a1.value,
+          child: AlertDialog(
+            title: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
                 ),
-                shape: const RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Colors.white30,
+                child: Stack(
+                  children: <Widget>[
+                    child ??
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                            padding: padding,
+                            child: textTitlecenterNoOver(text: "$title", fontSize: 18, textcolor: Colors.black),
+                          ),
+                        ),
+                    Visibility(
+                      visible: showCloseIcon,
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(
+                                  MdiIcons.close,
+                                  color: Colors.black,
+                                )),
+                          )),
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              ))),
+                  ],
+                )),
+            contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            titlePadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            //left, top, right, bottom
+            content: Visibility(
+              visible: child == null,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: crossAxisAlignment,
+                mainAxisAlignment: mainAxisAlignment,
+                children: <Widget>[
+                  const Divider(),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
+                    child: textSimpleSize(text: content ?? "", fontSize: 16, textcolor: Colors.black87),
+                  ),
+                ],
+              ),
+            ),
+            shape: const RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.white30,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          ),
+        ),
+      ),
       transitionDuration: const Duration(milliseconds: 240),
       barrierLabel: '',
       pageBuilder: (context, animation1, animation2) => const SizedBox(),
@@ -96,8 +99,9 @@ class GlobalComponents {
 
   static Widget textSimpleSize({required String text, Color? textcolor, double? fontSize}) {
     return Padding(
-      padding: const EdgeInsets.all(0.0),
+      padding: const EdgeInsets.all(8.0),
       child: Text(text, style: TextStyle(color: textcolor, fontSize: fontSize)),
     );
   }
 }
+

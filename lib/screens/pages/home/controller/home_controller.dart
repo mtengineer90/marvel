@@ -16,23 +16,27 @@ abstract class HomeControllerBase with Store {
   Character? character;
 
   @action
-  Future getCharacterFromApi(BuildContext context) async {
+  Future<bool> getCharacterFromApi(BuildContext context) async {
     try {
       var response = await ReqAPI.get(endPoint: EndPoint.characters);
       if (response.statusCode == 200) {
         character = charactersFromJson(response.body);
+        return true;
       } else {
         if (response.body.contains('message')) {
           GlobalComponents.msgAlert(
             context: context,
             title: apiErrorFromJson(response.body).message,
           );
+          return false;
         } else {
           _unknownError(context);
+          return false;
         }
       }
     } catch (e) {
       _unknownError(context);
+                return false;
     }
   }
 
