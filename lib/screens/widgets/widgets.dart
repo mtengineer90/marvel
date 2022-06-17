@@ -16,7 +16,7 @@ class GlobalWidgets {
   }) async {
     await showGeneralDialog(
       barrierDismissible: barrierDismissible,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Color.fromARGB(255, 240, 228, 228).withOpacity(0.5),
       context: context,
       transitionBuilder: (context, a1, a2, widget2) => Transform.scale(
         scale: a1.value,
@@ -75,7 +75,7 @@ class GlobalWidgets {
             ),
             shape: const RoundedRectangleBorder(
                 side: BorderSide(
-                  color: Colors.white30,
+                  color: Color.fromARGB(77, 247, 233, 233),
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:marvel/screens/pages/home/components/home_components.dart';
 
 import '../../../models/characters.dart';
 import '../../widgets/components.dart';
@@ -19,14 +18,14 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as String;
+    final args = arguments ?? ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
       appBar: AppBar(
         title: Observer(builder: (_) {
           return GlobalWidgets.textTitlecenterNoOver(
               text: _controller.character == null
-                  ? "Karakter Sayfası"
+                  ? "Karakter Detay"
                   : _controller.character!.data!.results!.first.name);
         }),      ),
       body: FutureBuilder(

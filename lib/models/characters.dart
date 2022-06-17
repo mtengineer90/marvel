@@ -2,7 +2,7 @@ import 'dart:convert';
 
 Character charactersFromJson({String? str}) {
   if (str == null) {
-    throw 'str can\'t be null';
+    throw 'boş veri';
   } else {
     return Character.fromJson(json.decode(str));
   }

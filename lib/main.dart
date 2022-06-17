@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       routes: {
         '/': ((context) => const HomeScreen()),
         ProfileScreen.routeName: ((context) => ProfileScreen()),

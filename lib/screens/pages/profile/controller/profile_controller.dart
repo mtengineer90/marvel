@@ -5,7 +5,6 @@ import '../../../../models/models.dart';
 import '../../../../services/constants.dart';
 import '../../../../services/web/request.dart';
 import '../../../widgets/components.dart';
-import '../../../widgets/widgets.dart';
 
 
 part 'profile_controller.g.dart';
