@@ -1,7 +1,12 @@
 import 'dart:convert';
 
-Character charactersFromJson(String str) => Character.fromJson(json.decode(str));
-
+Character charactersFromJson({String? str}) {
+  if (str == null) {
+    throw 'str can\'t be null';
+  } else {
+    return Character.fromJson(json.decode(str));
+  }
+}
 class Character {
   Character({
     this.code,
@@ -38,7 +43,7 @@ class Data {
     this.limit,
     this.total,
     this.count,
-    this.results = const <Result>[],
+    this.results,
   });
 
   int? offset;

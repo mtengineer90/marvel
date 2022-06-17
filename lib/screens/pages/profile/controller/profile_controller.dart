@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../models/models.dart';
-import '../../../../models/profile.dart';
 import '../../../../services/constants.dart';
 import '../../../../services/web/request.dart';
 import '../../../widgets/components.dart';
@@ -20,9 +19,9 @@ abstract class _ProfileController with Store {
   @action
   Future<bool> getProfileFromApi(BuildContext context, {String? id}) async {
     try {
-      var response = await ReqAPI.get(endPoint: "${EndPoint.characters}/$id");
+      var response = await ReqAPI().get(endPoint: "${EndPoint.characters}/$id");
       if (response.statusCode == 200) {
-        character = charactersFromJson(response.body);
+        character = charactersFromJson(str: response.body);
         return true;
       } else {
         if (response.body.contains('message')) {

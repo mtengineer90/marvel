@@ -46,13 +46,17 @@ class ImageFromAPI extends StatelessWidget {
           style: TextStyle(fontSize: 32),
         );
       },
+      fit: BoxFit.scaleDown,
       loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
         if (loadingProgress == null) {
           return child;
         } else {
-          return const SizedBox(
-            height: 32,
-            child: CircularProgressIndicator.adaptive(),
+          return const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: SizedBox(
+              height: 32,
+              child: CircularProgressIndicator.adaptive(),
+            ),
           );
         }
       },

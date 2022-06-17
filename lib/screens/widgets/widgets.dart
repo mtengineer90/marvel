@@ -33,9 +33,9 @@ class GlobalWidgets {
                         Align(
                           alignment: Alignment.center,
                           child: Container(
-                            margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                            margin: const EdgeInsets.all(8),
                             padding: padding,
-                            child: textTitlecenterNoOver(text: "$title", fontSize: 18, textcolor: Colors.black),
+                            child: textTitlecenterNoOver(text: "$title", fontSize: 18),
                           ),
                         ),
                     Visibility(
@@ -50,7 +50,6 @@ class GlobalWidgets {
                                 },
                                 child: const Icon(
                                   MdiIcons.close,
-                                  color: Colors.black,
                                 )),
                           )),
                     ),
@@ -88,13 +87,13 @@ class GlobalWidgets {
     );
   }
 
-  static Widget textTitlecenterNoOver({required String text, double? fontSize, Color? textcolor}) {
+  static Widget textTitlecenterNoOver({required String text, double? fontSize=22, Color? textcolor}) {
     return Text(text,
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize, color: textcolor));
   }
 
-  static Widget textSimpleSize({required String text, Color? textcolor, double? fontSize}) {
+  static Widget textSimpleSize({required String text, Color? textcolor, double? fontSize=22}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(text, style: TextStyle(color: textcolor, fontSize: fontSize)),

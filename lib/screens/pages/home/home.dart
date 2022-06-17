@@ -19,9 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeController _controller = HomeController();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: GlobalWidgets.textTitlecenterNoOver(text: 'Home Screen'),
@@ -36,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
               if (snapshot.data == false) {
                 const ErrorComponent();
               } else {
-                return _listChar(context);
+                return listChar(context);
               }
             }
             return const ErrorComponent();
@@ -52,43 +56,50 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
       await _controller.getCharacterFromApi(context);
-      setState(() {
-        print('tttt');
-      });
     }
-    if (_scrollController.offset <= _scrollController.position.minScrollExtent &&
-        !_scrollController.position.outOfRange) {}
   }
 
-  Widget _listChar(BuildContext context) {
+  Widget listChar(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Observer(builder: (_) {
         int lenght = _controller.character!.data!.results!.length;
         return ListView.builder(
-          itemCount: _controller.loading ? lenght + 1 : lenght,
+          controller: _scrollController,
+          itemCount: _controller.loading ? lenght : lenght,
           itemBuilder: (context, index) {
-            Result result = _controller.character!.data!.results![index];
             if (index == lenght - 1) {
-              return const CircularProgressIndicator();
-            }
-            return Column(
-              children: [
-                ListTile(
-                  leading: ImageFromAPI(
-                    url: result.thumbnail.path,
-                    imageVariant: ImageVariant.portraitXlarge,
-                    extention: result.thumbnail.extension.name.toString().toLowerCase(),
+              return const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(child: CircularProgressIndicator.adaptive()),
+              );
+            } else {
+              Result result = _controller.character!.data!.results![index];
+
+              return Column(
+                children: [
+                  ListTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Container(
+                        constraints: const BoxConstraints(maxWidth: 50),
+                        child: ImageFromAPI(
+                          url: result.thumbnail.path,
+                          imageVariant: ImageVariant.detail,
+                          extention: result.thumbnail.extension.name.toString().toLowerCase(),
+                        ),
+                      ),
+                    ),
+                    title: GlobalWidgets.textSimpleSize(text: result.name),
+                    contentPadding: const EdgeInsets.all(8),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profile', arguments: result.id.toString());
+                    },
                   ),
-                  title: GlobalWidgets.textSimpleSize(text: result.name),
-                  contentPadding: const EdgeInsets.all(8),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/profile', arguments: result.id.toString());
-                  },
-                ),
-                const Divider(thickness: 2, height: 1)
-              ],
-            );
+                  const Divider(thickness: 2, height: 1)
+                ],
+              );
+            }
           },
         );
       }),

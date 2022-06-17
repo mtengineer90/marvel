@@ -13,7 +13,7 @@ class HomeController = HomeControllerBase with _$HomeController;
 
 abstract class HomeControllerBase with Store {
   @observable
-  Character? character = Character(data: Data());
+  Character? character = Character(data: Data(results: <Result>[]));
   @observable
   bool loading = false;
 
@@ -21,12 +21,12 @@ abstract class HomeControllerBase with Store {
   Future<bool> getCharacterFromApi(BuildContext context) async {
     try {
       changeLoading(true);
-      var response = await ReqAPI.get(endPoint: EndPoint.characters);
+      var response = await ReqAPI().get(endPoint: EndPoint.characters);
       if (response.statusCode == 200) {
         if (character!.etag == null) {
-          character = charactersFromJson(response.body);
+          character = charactersFromJson(str:response.body);
         } else {
-          addResults(charactersFromJson(response.body).data!.results!);
+          addResults(charactersFromJson(str: response.body).data!.results!);
         }
         changeLoading(false);
         return true;
@@ -59,7 +59,7 @@ abstract class HomeControllerBase with Store {
     for (var element in results) {
       character!.data!.results!.add(element);
     }
-    this.character = character;
+    character = character;
   }
 
   @action

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:marvel/screens/pages/home/components/home_components.dart';
 
+import '../../../models/characters.dart';
 import '../../widgets/components.dart';
+import '../../widgets/image_component.dart';
+import 'components/list_horizontal_comics.dart';
 import 'controller/profile_controller.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -13,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
   static const routeName = '/profile';
 
   final String? arguments;
-late ProfileController _controller = ProfileController();
+  final ProfileController _controller = ProfileController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ late ProfileController _controller = ProfileController();
         title: Observer(builder: (_) {
           return GlobalWidgets.textTitlecenterNoOver(
               text: _controller.character == null
-                  ? "Profil Sayfası"
+                  ? "Karakter Sayfası"
                   : _controller.character!.data!.results!.first.name);
         }),      ),
       body: FutureBuilder(
@@ -37,8 +39,8 @@ late ProfileController _controller = ProfileController();
               if (snapshot.data == false) {
                 const ErrorComponent();
               } else {
-                return Text('Tamam'); //_listChar(context);
-              }
+                return _body(context);
+                              }
             }
             return const ErrorComponent();
           } catch (e) {
@@ -49,9 +51,27 @@ late ProfileController _controller = ProfileController();
     );
   }
 
-  Widget _body() {
-    return ListView(
-      children: [],
+Widget _body(BuildContext context) {
+    Result result = _controller.character!.data!.results!.first;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: ImageFromAPI(
+                  url: result.thumbnail.path,
+                  imageVariant: ImageVariant.detail,
+                  extention: result.thumbnail.extension.name.toString()),
+            ),    ),
+          GlobalWidgets.textTitlecenterNoOver(text: result.name, fontSize: 20),
+          GlobalWidgets.textSimpleSize(text: result.description == "" ? "" : result.description),
+ListHorizontalComics(result: result),
+          const SizedBox(height: 32)
+        ],
+      ),
     );
   }
+
 }

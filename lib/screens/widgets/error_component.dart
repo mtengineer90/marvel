@@ -15,7 +15,6 @@ class ErrorComponent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Icon(Icons.error_outline_outlined),
-          GlobalWidgets.textSimpleSize(text: 'Algo deu errado, tente novamente mais tarde')
         ],
       ),
     );
