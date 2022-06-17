@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/widgets.dart';
+import 'controller/home_controller.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -8,8 +11,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeController _controller = HomeController();
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: GlobalComponents.textTitlecenterNoOver(text: 'Anasayfa'),
+      ),
+
+    );
   }
 }

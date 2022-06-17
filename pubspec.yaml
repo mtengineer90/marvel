@@ -39,6 +39,7 @@ dependencies:
   mobx:
   build_runner: 
   mobx_codegen: ^2.0.5+2
+  material_design_icons_flutter: ^5.0.6595
   faker:
   test:
   mockito:

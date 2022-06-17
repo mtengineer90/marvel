@@ -29,9 +29,9 @@ mixin _$HomeController on HomeControllerBase, Store {
       AsyncAction('HomeControllerBase.getCharacterFromApi', context: context);
 
   @override
-  Future<dynamic> getCharacterFromApi() {
+  Future<dynamic> getCharacterFromApi(BuildContext context) {
     return _$getCharacterFromApiAsyncAction
-        .run(() => super.getCharacterFromApi());
+        .run(() => super.getCharacterFromApi(context));
   }
 
   @override

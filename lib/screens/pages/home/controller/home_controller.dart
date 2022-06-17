@@ -1,8 +1,11 @@
-import '../../../../models/characters.dart';
+import 'package:flutter/material.dart';
+
+import '../../../../models/models.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../services/constants.dart';
 import '../../../../services/web/request.dart';
+import '../../../widgets/widgets.dart';
 
 part 'home_controller.g.dart';
 
@@ -13,9 +16,31 @@ abstract class HomeControllerBase with Store {
   Character? character;
 
   @action
-  Future getCharacterFromApi() async {
+  Future getCharacterFromApi(BuildContext context) async {
     try {
       var response = await ReqAPI.get(endPoint: EndPoint.characters);
-    } catch (e) {}
+      if (response.statusCode == 200) {
+        character = charactersFromJson(response.body);
+      } else {
+        if (response.body.contains('message')) {
+          GlobalComponents.msgAlert(
+            context: context,
+            title: apiErrorFromJson(response.body).message,
+          );
+        } else {
+          _unknownError(context);
+        }
+      }
+    } catch (e) {
+      _unknownError(context);
+    }
+  }
+
+  void _unknownError(BuildContext context) {
+    GlobalComponents.msgAlert(
+      context: context,
+      title: 'Hata!',
+      content: "Tekrar deneyin!",
+    );
   }
 }
