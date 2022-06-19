@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: GlobalWidgets.textTitlecenterNoOver(text: 'Anasayfa'),
+        title: Center(child: GlobalWidgets.textTitlecenterNoOver(text: 'Anasayfa')),
       ),
       body: FutureBuilder(
         future: _controller.getCharacterFromApi(context),

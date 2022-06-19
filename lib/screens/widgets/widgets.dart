@@ -68,7 +68,7 @@ class GlobalWidgets {
                   const Divider(),
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 5, 10, 20),
-                    child: textSimpleSize(text: content ?? "", fontSize: 16, textcolor: Colors.black87),
+                    child: textSimpleSize(text: content ?? "", fontSize: 11, textcolor: Colors.black87),
                   ),
                 ],
               ),
@@ -87,13 +87,13 @@ class GlobalWidgets {
     );
   }
 
-  static Widget textTitlecenterNoOver({required String text, double? fontSize=22, Color? textcolor}) {
+  static Widget textTitlecenterNoOver({required String text, double? fontSize=14, Color? textcolor}) {
     return Text(text,
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: fontSize, color: textcolor));
   }
 
-  static Widget textSimpleSize({required String text, Color? textcolor, double? fontSize=22}) {
+  static Widget textSimpleSize({required String text, Color? textcolor, double? fontSize=14}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(text, style: TextStyle(color: textcolor, fontSize: fontSize)),

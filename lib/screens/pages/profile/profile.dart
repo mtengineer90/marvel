@@ -53,20 +53,23 @@ class ProfileScreen extends StatelessWidget {
 Widget _body(BuildContext context) {
     Result result = _controller.character!.data!.results!.first;
     return SingleChildScrollView(
-      child: Column(
+      child: Column(mainAxisAlignment:MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: ImageFromAPI(
-                  url: result.thumbnail.path,
-                  imageVariant: ImageVariant.detail,
-                  extention: result.thumbnail.extension.name.toString()),
-            ),    ),
+          Container(                    height: MediaQuery.of(context).size.height*0.4,
+                  width: MediaQuery.of(context).size.width*0.4,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: ImageFromAPI(
+                    url: result.thumbnail.path,
+                    imageVariant: ImageVariant.detail,
+                    extention: result.thumbnail.extension.name.toString()),
+              ),    ),
+          ),
           GlobalWidgets.textTitlecenterNoOver(text: result.name, fontSize: 20),
           GlobalWidgets.textSimpleSize(text: result.description == "" ? "" : result.description),
-ListHorizontalComics(result: result),
+          ListComics(result: result),
           const SizedBox(height: 32)
         ],
       ),
